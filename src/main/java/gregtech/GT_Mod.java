@@ -189,14 +189,14 @@ public class GT_Mod implements IGT_Mod {
         GT_Values.D1 = tMainConfig.get(aTextGeneral, "Debug", false).getBoolean(false);
         GT_Values.D2 = tMainConfig.get(aTextGeneral, "Debug2", false).getBoolean(false);
         GT_Values.debugCleanroom = tMainConfig.get(aTextGeneral, "debugCleanroom", false).getBoolean(false);
-		GT_Values.debugWorldGen = tMainConfig.get(aTextGeneral, "debugWorldGen", false).getBoolean(false);
-		GT_Values.debugOrevein = tMainConfig.get(aTextGeneral, "debugOrevein", false).getBoolean(false);
-		GT_Values.debugSmallOres = tMainConfig.get(aTextGeneral, "debugSmallOres", false).getBoolean(false);
-		GT_Values.debugStones = tMainConfig.get(aTextGeneral, "debugStones", false).getBoolean(false);
-		GT_Values.oreveinPercentage = tMainConfig.get(aTextGeneral, "oreveinPercentage_75",75).getInt(75);
-		GT_Values.oreveinAttempts = tMainConfig.get(aTextGeneral, "oreveinAttempts_64",64).getInt(64);
-		GT_Values.oreveinMaxPlacementAttempts = tMainConfig.get(aTextGeneral, "oreveinMaxPlacementAttempts_8",8).getInt(8);
-		GT_Values.oreveinMaxSize = tMainConfig.get(aTextGeneral, "oreveinMaxSize_64",64).getInt(64);
+        GT_Values.debugWorldGen = tMainConfig.get(aTextGeneral, "debugWorldGen", false).getBoolean(false);
+        GT_Values.debugOrevein = tMainConfig.get(aTextGeneral, "debugOrevein", false).getBoolean(false);
+        GT_Values.debugSmallOres = tMainConfig.get(aTextGeneral, "debugSmallOres", false).getBoolean(false);
+        GT_Values.debugStones = tMainConfig.get(aTextGeneral, "debugStones", false).getBoolean(false);
+        GT_Values.oreveinPercentage = tMainConfig.get(aTextGeneral, "oreveinPercentage_75",75).getInt(75);
+        GT_Values.oreveinAttempts = tMainConfig.get(aTextGeneral, "oreveinAttempts_64",64).getInt(64);
+        GT_Values.oreveinMaxPlacementAttempts = tMainConfig.get(aTextGeneral, "oreveinMaxPlacementAttempts_8",8).getInt(8);
+        GT_Values.oreveinMaxSize = tMainConfig.get(aTextGeneral, "oreveinMaxSize_64",64).getInt(64);
 
         GregTech_API.TICKS_FOR_LAG_AVERAGING = tMainConfig.get(aTextGeneral, "TicksForLagAveragingWithScanner", 25).getInt(25);
         GregTech_API.MILLISECOND_THRESHOLD_UNTIL_LAG_WARNING = tMainConfig.get(aTextGeneral, "MillisecondsPassedInGTTileEntityUntilLagWarning", 100).getInt(100);
@@ -331,8 +331,8 @@ public class GT_Mod implements IGT_Mod {
         GT_LanguageManager.sEnglishFile.load();
         
         for (Materials aMaterial : Materials.values()) {
-        	if (aMaterial != null)
-        		aMaterial.mLocalizedName = GT_LanguageManager.addStringLocalization("Material." + aMaterial.mName.toLowerCase(), aMaterial.mDefaultLocalName);
+            if (aMaterial != null)
+                aMaterial.mLocalizedName = GT_LanguageManager.addStringLocalization("Material." + aMaterial.mName.toLowerCase(), aMaterial.mDefaultLocalName);
         }
 
         GT_Log.out.println("GT_Mod: Removing all original Scrapbox Drops.");
@@ -353,68 +353,68 @@ public class GT_Mod implements IGT_Mod {
         System.out.println("preReader");
         List<String> oreTags = new ArrayList<String>();
         if(Loader.isModLoaded("MineTweaker3")){
-        	File globalDir = new File("scripts");
-        	if (globalDir.exists()){
-        		List<String> scripts = new ArrayList<String>();
-        			for (File file : globalDir.listFiles()) {
-        				 if (file.getName().endsWith(".zs")) {
-        					 try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-        						    String line;
-        						    while ((line = br.readLine()) != null) {
-        						       scripts.add(line);
-        						    }
-        						} catch (Exception e) {e.printStackTrace();}
-        				}
-        			}
-        			String pattern1 = "<";
-        			String pattern2 = ">";
+            File globalDir = new File("scripts");
+            if (globalDir.exists()){
+                List<String> scripts = new ArrayList<String>();
+                    for (File file : globalDir.listFiles()) {
+                         if (file.getName().endsWith(".zs")) {
+                             try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                                    String line;
+                                    while ((line = br.readLine()) != null) {
+                                       scripts.add(line);
+                                    }
+                                } catch (Exception e) {e.printStackTrace();}
+                        }
+                    }
+                    String pattern1 = "<";
+                    String pattern2 = ">";
 
-        			Pattern p = Pattern.compile(Pattern.quote(pattern1) + "(.*?)" + Pattern.quote(pattern2));
-        			for(String text : scripts){
-        			Matcher m = p.matcher(text);
-        			while (m.find()) {
-        			  String hit = m.group(1);
-        			  if(hit.startsWith("ore:")){
-        				  hit = hit.substring(4);
-        				  if(!oreTags.contains(hit)) oreTags.add(hit);
-        			  }else if(hit.startsWith("gregtech:gt.metaitem.0")){
-        				  hit = hit.substring(22);
-        				  int mIt = Integer.parseInt(hit.substring(0, 1));
-        				  if(mIt>0){
-        					  int meta = 0;
-        					  try{
-        					  hit = hit.substring(2);
-        					  meta = Integer.parseInt(hit);
-        					  }catch(Exception e){System.out.println("parseError: "+hit);}
-        					  if(meta>0&&meta<32000){
-        					  int prefix = meta/1000;
-        					  int material = meta % 1000;
-        					  String tag = "";
-        					  String[] tags = new String[]{};
-        					  if(mIt==1)tags = new String[]{"dustTiny","dustSmall","dust","dustImpure","dustPure","crushed","crushedPurified","crushedCentrifuged","gem","nugget",null,"ingot","ingotHot","ingotDouble","ingotTriple","ingotQuadruple","ingotQuintuple","plate","plateDouble","plateTriple","plateQuadruple","plateQuintuple","plateDense","stick","lens","round","bolt","screw","ring","foil","cell","cellPlasma"};
-        					  if(mIt==2)tags = new String[]{"toolHeadSword", "toolHeadPickaxe", "toolHeadShovel", "toolHeadAxe", "toolHeadHoe", "toolHeadHammer", "toolHeadFile", "toolHeadSaw", "toolHeadDrill", "toolHeadChainsaw", "toolHeadWrench", "toolHeadUniversalSpade", "toolHeadSense", "toolHeadPlow", "toolHeadArrow", "toolHeadBuzzSaw", "turbineBlade", null, null, "wireFine", "gearGtSmall", "rotor", "stickLong", "springSmall", "spring", "arrowGtWood", "arrowGtPlastic", "gemChipped", "gemFlawed", "gemFlawless", "gemExquisite", "gearGt"};
-        					  if(mIt==3)tags = new String[]{"crateGtDust", "crateGtIngot", "crateGtGem", "crateGtPlate"};
-        					  if(tags.length>prefix) tag = tags[prefix];
-        					  if(GregTech_API.sGeneratedMaterials[material]!=null){
-        						  tag += GregTech_API.sGeneratedMaterials[material].mName;
-        						  if(!oreTags.contains(tag)) oreTags.add(tag);
-        					  }else if(material>0){System.out.println("MaterialDisabled: "+material+" "+m.group(1));}
-        					  }
-        				  }
-        			  }
-        			}
-        		}
-        	}
+                    Pattern p = Pattern.compile(Pattern.quote(pattern1) + "(.*?)" + Pattern.quote(pattern2));
+                    for(String text : scripts){
+                    Matcher m = p.matcher(text);
+                    while (m.find()) {
+                      String hit = m.group(1);
+                      if(hit.startsWith("ore:")){
+                          hit = hit.substring(4);
+                          if(!oreTags.contains(hit)) oreTags.add(hit);
+                      }else if(hit.startsWith("gregtech:gt.metaitem.0")){
+                          hit = hit.substring(22);
+                          int mIt = Integer.parseInt(hit.substring(0, 1));
+                          if(mIt>0){
+                              int meta = 0;
+                              try{
+                              hit = hit.substring(2);
+                              meta = Integer.parseInt(hit);
+                              }catch(Exception e){System.out.println("parseError: "+hit);}
+                              if(meta>0&&meta<32000){
+                              int prefix = meta/1000;
+                              int material = meta % 1000;
+                              String tag = "";
+                              String[] tags = new String[]{};
+                              if(mIt==1)tags = new String[]{"dustTiny","dustSmall","dust","dustImpure","dustPure","crushed","crushedPurified","crushedCentrifuged","gem","nugget",null,"ingot","ingotHot","ingotDouble","ingotTriple","ingotQuadruple","ingotQuintuple","plate","plateDouble","plateTriple","plateQuadruple","plateQuintuple","plateDense","stick","lens","round","bolt","screw","ring","foil","cell","cellPlasma"};
+                              if(mIt==2)tags = new String[]{"toolHeadSword", "toolHeadPickaxe", "toolHeadShovel", "toolHeadAxe", "toolHeadHoe", "toolHeadHammer", "toolHeadFile", "toolHeadSaw", "toolHeadDrill", "toolHeadChainsaw", "toolHeadWrench", "toolHeadUniversalSpade", "toolHeadSense", "toolHeadPlow", "toolHeadArrow", "toolHeadBuzzSaw", "turbineBlade", null, null, "wireFine", "gearGtSmall", "rotor", "stickLong", "springSmall", "spring", "arrowGtWood", "arrowGtPlastic", "gemChipped", "gemFlawed", "gemFlawless", "gemExquisite", "gearGt"};
+                              if(mIt==3)tags = new String[]{"crateGtDust", "crateGtIngot", "crateGtGem", "crateGtPlate"};
+                              if(tags.length>prefix) tag = tags[prefix];
+                              if(GregTech_API.sGeneratedMaterials[material]!=null){
+                                  tag += GregTech_API.sGeneratedMaterials[material].mName;
+                                  if(!oreTags.contains(tag)) oreTags.add(tag);
+                              }else if(material>0){System.out.println("MaterialDisabled: "+material+" "+m.group(1));}
+                              }
+                          }
+                      }
+                    }
+                }
+            }
         }
         String[] preS = new String[]{"dustTiny","dustSmall","dust","dustImpure","dustPure","crushed","crushedPurified","crushedCentrifuged","gem","nugget","ingot","ingotHot","ingotDouble","ingotTriple","ingotQuadruple","ingotQuintuple","plate","plateDouble","plateTriple","plateQuadruple","plateQuintuple","plateDense","stick","lens","round","bolt","screw","ring","foil","cell","cellPlasma","toolHeadSword", "toolHeadPickaxe", "toolHeadShovel", "toolHeadAxe", "toolHeadHoe", "toolHeadHammer", "toolHeadFile", "toolHeadSaw", "toolHeadDrill", "toolHeadChainsaw", "toolHeadWrench", "toolHeadUniversalSpade", "toolHeadSense", "toolHeadPlow", "toolHeadArrow", "toolHeadBuzzSaw", "turbineBlade", "wireFine", "gearGtSmall", "rotor", "stickLong", "springSmall", "spring", "arrowGtWood", "arrowGtPlastic", "gemChipped", "gemFlawed", "gemFlawless", "gemExquisite", "gearGt","crateGtDust", "crateGtIngot", "crateGtGem", "crateGtPlate"};
 
         List<String> mMTTags = new ArrayList<String>();
         for(String test : oreTags){
-        	if(StringUtils.startsWithAny(test, preS)){
-        	mMTTags.add(test);
-        	if(GT_Values.D1)
-        	System.out.println("oretag: "+test);
-        	}}
+            if(StringUtils.startsWithAny(test, preS)){
+            mMTTags.add(test);
+            if(GT_Values.D1)
+            System.out.println("oretag: "+test);
+            }}
         
         System.out.println("reenableMetaItems");
         for(String reEnable : mMTTags){
@@ -425,32 +425,32 @@ public class GT_Mod implements IGT_Mod {
         tPrefix.mDisabledItems.remove(tName);
         tPrefix.mGeneratedItems.add(tName);
         if(tPrefix == OrePrefixes.screw){
-        	OrePrefixes.bolt.mDisabledItems.remove(tName);
-        	OrePrefixes.bolt.mGeneratedItems.add(tName);
-        	OrePrefixes.stick.mDisabledItems.remove(tName);
-        	OrePrefixes.stick.mGeneratedItems.add(tName);
+            OrePrefixes.bolt.mDisabledItems.remove(tName);
+            OrePrefixes.bolt.mGeneratedItems.add(tName);
+            OrePrefixes.stick.mDisabledItems.remove(tName);
+            OrePrefixes.stick.mGeneratedItems.add(tName);
         }
         if(tPrefix == OrePrefixes.round){
-        	OrePrefixes.nugget.mDisabledItems.remove(tName);
-        	OrePrefixes.nugget.mGeneratedItems.add(tName);
+            OrePrefixes.nugget.mDisabledItems.remove(tName);
+            OrePrefixes.nugget.mGeneratedItems.add(tName);
         }
         if(tPrefix == OrePrefixes.spring){
-        	OrePrefixes.stickLong.mDisabledItems.remove(tName);
-        	OrePrefixes.stickLong.mGeneratedItems.add(tName);
-        	OrePrefixes.stick.mDisabledItems.remove(tName);
-        	OrePrefixes.stick.mGeneratedItems.add(tName);
+            OrePrefixes.stickLong.mDisabledItems.remove(tName);
+            OrePrefixes.stickLong.mGeneratedItems.add(tName);
+            OrePrefixes.stick.mDisabledItems.remove(tName);
+            OrePrefixes.stick.mGeneratedItems.add(tName);
         }
         if(tPrefix == OrePrefixes.springSmall){
-        	OrePrefixes.stick.mDisabledItems.remove(tName);
-        	OrePrefixes.stick.mGeneratedItems.add(tName);
+            OrePrefixes.stick.mDisabledItems.remove(tName);
+            OrePrefixes.stick.mGeneratedItems.add(tName);
         }
         if(tPrefix == OrePrefixes.stickLong){
-        	OrePrefixes.stick.mDisabledItems.remove(tName);
-        	OrePrefixes.stick.mGeneratedItems.add(tName);
+            OrePrefixes.stick.mDisabledItems.remove(tName);
+            OrePrefixes.stick.mGeneratedItems.add(tName);
         }
         if(tPrefix == OrePrefixes.rotor){
-        	OrePrefixes.ring.mDisabledItems.remove(tName);
-        	OrePrefixes.ring.mGeneratedItems.add(tName);
+            OrePrefixes.ring.mDisabledItems.remove(tName);
+            OrePrefixes.ring.mGeneratedItems.add(tName);
         }
         }else{System.out.println("noMaterial "+reEnable);}
         }else{System.out.println("noPrefix "+reEnable);}}
@@ -470,17 +470,17 @@ public class GT_Mod implements IGT_Mod {
         new GT_SpawnEventHandler();
 
         if (true) {
-			GT_Values.RA.addCentrifugeRecipe(Materials.Stone.getDust(1), GT_Values.NI, GT_Values.NF, GT_Values.NF,
-					Materials.Quartzite.getDustSmall(1),Materials.PotassiumFeldspar.getDustSmall(1),Materials.Marble.getDustTiny(2),
-					Materials.Biotite.getDustTiny(1), 	Materials.MetalMixture.getDustTiny(1), 		Materials.Sodalite.getDustTiny(1),
-					new int[]{10000, 10000, 10000, 10000, 7500, 5000}, 480, 120);
-			GT_Values.RA.addCentrifugeRecipe(Materials.MetalMixture.getDust(1), GT_Values.NI, GT_Values.NF, GT_Values.NF,
-					Materials.BandedIron.getDustSmall(1), 	Materials.Bauxite.getDustSmall(1), Materials.Pyrolusite.getDustTiny(2),
-					Materials.Barite.getDustTiny(1), 		Materials.Chromite.getDustTiny(1), Materials.Ilmenite.getDustTiny(1),
-					new int[]{10000, 10000, 10000, 10000, 7500, 5000}, 1000, 900);
+            GT_Values.RA.addCentrifugeRecipe(Materials.Stone.getDust(1), GT_Values.NI, GT_Values.NF, GT_Values.NF,
+                    Materials.Quartzite.getDustSmall(1),Materials.PotassiumFeldspar.getDustSmall(1),Materials.Marble.getDustTiny(2),
+                    Materials.Biotite.getDustTiny(1),     Materials.MetalMixture.getDustTiny(1),         Materials.Sodalite.getDustTiny(1),
+                    new int[]{10000, 10000, 10000, 10000, 7500, 5000}, 480, 120);
+            GT_Values.RA.addCentrifugeRecipe(Materials.MetalMixture.getDust(1), GT_Values.NI, GT_Values.NF, GT_Values.NF,
+                    Materials.BandedIron.getDustSmall(1),     Materials.Bauxite.getDustSmall(1), Materials.Pyrolusite.getDustTiny(2),
+                    Materials.Barite.getDustTiny(1),         Materials.Chromite.getDustTiny(1), Materials.Ilmenite.getDustTiny(1),
+                    new int[]{10000, 10000, 10000, 10000, 7500, 5000}, 1000, 900);
         }
-		/*
-		if (GregTech_API.sRecipeFile.get(ConfigCategories.Recipes.gregtechrecipes, "SolarPanel", true)) {
+        /*
+        if (GregTech_API.sRecipeFile.get(ConfigCategories.Recipes.gregtechrecipes, "SolarPanel", true)) {
             GT_ModHandler.addCraftingRecipe(ItemList.Cover_SolarPanel.get(1L, new Object[0]),    GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"SGS", "CPC", 'C', OrePrefixes.circuit.get(Materials.Basic), 'G', new ItemStack(Blocks.glass_pane, 1), 'P', OrePrefixes.plateAlloy.get(Materials.Carbon), 'S', ItemList.Circuit_Silicon_Wafer});
             GT_ModHandler.addCraftingRecipe(ItemList.Cover_SolarPanel_8V.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"SGS", "CPC","R R", 'C', OrePrefixes.circuit.get(Materials.Advanced), 'G', new ItemStack(Blocks.glass_pane, 1), 'P', OrePrefixes.wireGt04.get(Materials.Graphene), 'S', ItemList.Circuit_Silicon_Wafer2,'R', OrePrefixes.plate.get(Materials.GalliumArsenide)});
             GT_ModHandler.addCraftingRecipe(ItemList.Cover_SolarPanel_LV.get(1L, new Object[0]), GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE, new Object[]{"SGS", "CPC","R R", 'C', OrePrefixes.circuit.get(Materials.Master), 'G', GT_ModHandler.getIC2Item("reinforcedGlass", 1L), 'P', OrePrefixes.wireGt16.get(Materials.Graphene), 'S', ItemList.Circuit_Silicon_Wafer3,'R', OrePrefixes.plate.get(Materials.IndiumGalliumPhosphide)});
@@ -515,16 +515,16 @@ public class GT_Mod implements IGT_Mod {
         */
         double outputMultiplier = Math.min(GregTech_API.sOPStuff.get(ConfigCategories.Recipes.gregtechrecipes, "StoneDustOutputMultiplier", 0.6), 1.0);
         if (GregTech_API.sOPStuff.get(ConfigCategories.Recipes.gregtechrecipes, "StoneDustCentrifugation", false)) {
-        	int fullChance = (int)(10000 * outputMultiplier);
-        	int[] chances = new int[]{fullChance, fullChance, fullChance, fullChance, fullChance, (int)(5500 * outputMultiplier)};
-			GT_Values.RA.addCentrifugeRecipe(Materials.Stone.getDust(1), GT_Values.NI, GT_Values.NF, GT_Values.NF, 
-					Materials.Quartzite.getDustSmall(1),Materials.PotassiumFeldspar.getDustSmall(1),Materials.Marble.getDustTiny(2),
-					Materials.Biotite.getDustTiny(1), 	Materials.MetalMixture.getDustTiny(1), 		Materials.Sodalite.getDustTiny(1), 
-					chances, 600, 120);
-			GT_Values.RA.addCentrifugeRecipe(Materials.MetalMixture.getDust(1), GT_Values.NI, GT_Values.NF, GT_Values.NF, 
-					Materials.BandedIron.getDustSmall(1), 	Materials.Bauxite.getDustSmall(1), Materials.Pyrolusite.getDustTiny(2),
-					Materials.Barite.getDustTiny(1), 		Materials.Chromite.getDustTiny(1), Materials.Ilmenite.getDustTiny(1), 
-					new int[]{10000, 10000, 10000, 10000, 10000, 6000}, 600, 1920);
+            int fullChance = (int)(10000 * outputMultiplier);
+            int[] chances = new int[]{fullChance, fullChance, fullChance, fullChance, fullChance, (int)(5500 * outputMultiplier)};
+            GT_Values.RA.addCentrifugeRecipe(Materials.Stone.getDust(1), GT_Values.NI, GT_Values.NF, GT_Values.NF, 
+                    Materials.Quartzite.getDustSmall(1),Materials.PotassiumFeldspar.getDustSmall(1),Materials.Marble.getDustTiny(2),
+                    Materials.Biotite.getDustTiny(1),     Materials.MetalMixture.getDustTiny(1),         Materials.Sodalite.getDustTiny(1), 
+                    chances, 600, 120);
+            GT_Values.RA.addCentrifugeRecipe(Materials.MetalMixture.getDust(1), GT_Values.NI, GT_Values.NF, GT_Values.NF, 
+                    Materials.BandedIron.getDustSmall(1),     Materials.Bauxite.getDustSmall(1), Materials.Pyrolusite.getDustTiny(2),
+                    Materials.Barite.getDustTiny(1),         Materials.Chromite.getDustTiny(1), Materials.Ilmenite.getDustTiny(1), 
+                    new int[]{10000, 10000, 10000, 10000, 10000, 6000}, 600, 1920);
         }
         double ashOutputMultiplier = Math.min(GregTech_API.sOPStuff.get(ConfigCategories.Recipes.gregtechrecipes, "AshOutputMultiplier", 1.0), 1.0);
         if (GregTech_API.sOPStuff.get(ConfigCategories.Recipes.gregtechrecipes, "AshYieldsAlkaliMetalOxides", true)) {
@@ -588,11 +588,11 @@ public class GT_Mod implements IGT_Mod {
         } catch (Throwable e) {e.printStackTrace(GT_Log.err);}
 
         new GT_Bees();
-		
-		//Disable Low Grav regardless of config if Cleanroom is disabled.
-		if (!gregtechproxy.mEnableCleanroom){
-			gregtechproxy.mLowGravProcessing = false;
-		}
+        
+        //Disable Low Grav regardless of config if Cleanroom is disabled.
+        if (!gregtechproxy.mEnableCleanroom){
+            gregtechproxy.mLowGravProcessing = false;
+        }
 
         //Disable Low Grav regardless of config if Cleanroom is disabled.
         if (!gregtechproxy.mEnableCleanroom){
@@ -1236,38 +1236,38 @@ public class GT_Mod implements IGT_Mod {
     
     private void addSolidFakeLargeBoilerFuels(){
         GT_Recipe.GT_Recipe_Map.sLargeBoilerFakeFuels.addSolidRecipes(
-        		GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Charcoal, 1),
-        		GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Charcoal, 1),
-        		GT_OreDictUnificator.get(OrePrefixes.block, Materials.Charcoal, 1),
-        		GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Coal, 1),
-        		GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Coal, 1),
-        		GT_OreDictUnificator.get(OrePrefixes.block, Materials.Coal, 1),
-        		GT_OreDictUnificator.get(OrePrefixes.crushed, Materials.Coal, 1),
-        		GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Carbon, 1),
-        		GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Lignite, 1),
-        		GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Lignite, 1),
-        		GT_OreDictUnificator.get(OrePrefixes.block, Materials.Lignite, 1),
-        		GT_OreDictUnificator.get(OrePrefixes.crushed, Materials.Lignite, 1),
-        		GT_OreDictUnificator.get(OrePrefixes.log, Materials.Wood, 1),
-        		GT_OreDictUnificator.get(OrePrefixes.plank, Materials.Wood, 1),
-        		GT_OreDictUnificator.get(OrePrefixes.stick, Materials.Wood, 1),
-        		GT_OreDictUnificator.get(OrePrefixes.slab, Materials.Wood, 1),
-        		GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Wood, 1),
-        		GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sodium, 1),
-        		GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Lithium, 1),
-        		GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Caesium, 1),
-        		GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sulfur, 1),
-        		GT_OreDictUnificator.get(ItemList.Block_SSFUEL.get(1, new Object[0])),
-        		GT_OreDictUnificator.get(ItemList.Block_MSSFUEL.get(1, new Object[0])),
-        		GT_OreDictUnificator.get(OrePrefixes.bucket, Materials.Lava, 1),
-        		GT_OreDictUnificator.get(OrePrefixes.rod, Materials.Blaze, 1));
+                GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Charcoal, 1),
+                GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Charcoal, 1),
+                GT_OreDictUnificator.get(OrePrefixes.block, Materials.Charcoal, 1),
+                GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Coal, 1),
+                GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Coal, 1),
+                GT_OreDictUnificator.get(OrePrefixes.block, Materials.Coal, 1),
+                GT_OreDictUnificator.get(OrePrefixes.crushed, Materials.Coal, 1),
+                GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Carbon, 1),
+                GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Lignite, 1),
+                GT_OreDictUnificator.get(OrePrefixes.gem, Materials.Lignite, 1),
+                GT_OreDictUnificator.get(OrePrefixes.block, Materials.Lignite, 1),
+                GT_OreDictUnificator.get(OrePrefixes.crushed, Materials.Lignite, 1),
+                GT_OreDictUnificator.get(OrePrefixes.log, Materials.Wood, 1),
+                GT_OreDictUnificator.get(OrePrefixes.plank, Materials.Wood, 1),
+                GT_OreDictUnificator.get(OrePrefixes.stick, Materials.Wood, 1),
+                GT_OreDictUnificator.get(OrePrefixes.slab, Materials.Wood, 1),
+                GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Wood, 1),
+                GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sodium, 1),
+                GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Lithium, 1),
+                GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Caesium, 1),
+                GT_OreDictUnificator.get(OrePrefixes.dust, Materials.Sulfur, 1),
+                GT_OreDictUnificator.get(ItemList.Block_SSFUEL.get(1, new Object[0])),
+                GT_OreDictUnificator.get(ItemList.Block_MSSFUEL.get(1, new Object[0])),
+                GT_OreDictUnificator.get(OrePrefixes.bucket, Materials.Lava, 1),
+                GT_OreDictUnificator.get(OrePrefixes.rod, Materials.Blaze, 1));
         if (Loader.isModLoaded("Thaumcraft")) {
-        	GT_Recipe.GT_Recipe_Map.sLargeBoilerFakeFuels.addSolidRecipe(GT_ModHandler.getModItem("Thaumcraft", "ItemResource", 1));
+            GT_Recipe.GT_Recipe_Map.sLargeBoilerFakeFuels.addSolidRecipe(GT_ModHandler.getModItem("Thaumcraft", "ItemResource", 1));
         }
     }
 
     public static int calculateTotalGTVersion(int minorVersion){
-            	return calculateTotalGTVersion(VERSION, minorVersion);
+                return calculateTotalGTVersion(VERSION, minorVersion);
             }
 
     public static int calculateTotalGTVersion(int majorVersion, int minorVersion){
